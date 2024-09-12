@@ -7,7 +7,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -44,22 +43,22 @@ public class Product {
 
     public void changeDescription(String description) {
         this.description = description;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now() ;
     }
 
     public void changeProductName(String productName) {
         this.productName = productName;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now() ;
     }
 
     public void changeCategory(Category category) {
         this.category = category;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now() ;
     }
 
     public void changePrice(int price) {
         this.price = price;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now() ;
     }
 
     public void changeImageUrl(String imageUrl) {

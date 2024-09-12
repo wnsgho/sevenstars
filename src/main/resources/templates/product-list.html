@@ -13,6 +13,9 @@
   <a href="/new-product" class="btn btn-primary" type="button">Add Product</a>
 </div>
 
+<div id="loading" class="text-center my-3">로딩 중...</div>
+<div id="error" class="alert alert-danger" style="display: none;"></div>
+
 <table class="table table-hover table-striped">
   <thead>
   <tr>
@@ -30,27 +33,94 @@
   </tbody>
 </table>
 
+<nav aria-label="Product navigation">
+  <ul class="pagination justify-content-center" id="pagination">
+    <!-- 페이지 버튼이 JavaScript를 통해 동적으로 삽입됩니다 -->
+  </ul>
+</nav>
+
 <script>
-  // API를 호출하여 데이터 가져오기
-  fetch('/api/v1/products')
-          .then(response => response.json())
-          .then(products => {
-            const productList = document.getElementById('product-list');
-            products.content.forEach(product => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                    <td>${product.productId}</td>
-                    <td>${product.productName}</td>
-                    <td>${product.category}</td>
-                    <td>${product.price}</td>
-                    <td>${product.description}</td>
-                    <td>${product.createdAt}</td>
-                    <td>${product.updatedAt}</td>
-                `;
-              productList.appendChild(row);
+  let currentPage = 1;
+  const pageSize = 10; // 페이지당 항목 수
+
+  function fetchProducts(page) {
+    const loadingElement = document.getElementById('loading');
+    const errorElement = document.getElementById('error');
+    const productList = document.getElementById('product-list');
+
+    loadingElement.style.display = 'block';
+    errorElement.style.display = 'none';
+    productList.innerHTML = '';
+
+    // 여기서 page를 그대로 사용합니다 (0을 빼지 않습니다)
+    fetch(`/api/v1/products?page=${page}&size=${pageSize}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              loadingElement.style.display = 'none';
+              if (!data.content || !Array.isArray(data.content)) {
+                throw new Error('Invalid data format from server');
+              }
+              data.content.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${product.productId || ''}</td>
+            <td>${product.productName || ''}</td>
+            <td>${product.category || ''}</td>
+            <td>${product.price || ''}</td>
+            <td>${product.description || ''}</td>
+            <td>${product.createdAt || ''}</td>
+            <td>${product.updatedAt || ''}</td>
+          `;
+                productList.appendChild(row);
+              });
+
+              updatePagination(data.totalPages || 1, page);
+            })
+            .catch(error => {
+              loadingElement.style.display = 'none';
+              errorElement.style.display = 'block';
+              errorElement.textContent = `Error fetching products: ${error.message}`;
+              console.error('Error fetching products:', error);
             });
-          })
-          .catch(error => console.error('Error fetching products:', error));
+  }
+
+  function updatePagination(totalPages, currentPage) {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    // 이전 버튼
+    const prevButton = document.createElement('li');
+    prevButton.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+    prevButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">이전</a>`;
+    pagination.appendChild(prevButton);
+
+    // 페이지 번호 버튼
+    for (let i = 1; i <= totalPages; i++) {
+      const pageButton = document.createElement('li');
+      pageButton.className = `page-item ${currentPage === i ? 'active' : ''}`;
+      pageButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+      pagination.appendChild(pageButton);
+    }
+
+    // 다음 버튼
+    const nextButton = document.createElement('li');
+    nextButton.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">다음</a>`;
+    pagination.appendChild(nextButton);
+  }
+
+  function changePage(newPage) {
+    currentPage = newPage;
+    fetchProducts(currentPage);
+  }
+
+  // 초기 로드
+  fetchProducts(currentPage);
 </script>
 
 </body>

@@ -39,8 +39,8 @@ public class ProductDTO {
         this.price = product.getPrice();
         this.description = product.getDescription();
         this.imageUrl = product.getImageUrl();
-        this.createdAt = product.getCreatedAt(); // 생성 날짜 추가
-        this.updatedAt = product.getUpdatedAt(); // 수정 날짜 추가
+        this.createdAt = product.getCreatedAt().withNano(0) ; // 생성 날짜 추가
+        this.updatedAt = product.getUpdatedAt().withNano(0) ; // 수정 날짜 추가
     }
 
 

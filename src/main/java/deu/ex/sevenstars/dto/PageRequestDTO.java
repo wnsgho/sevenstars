@@ -27,7 +27,7 @@ public class PageRequestDTO {
     @Builder.Default
     @Min(10)
     @Max(100)
-    private int size = 20;
+    private int size = 10;
 
     public Pageable getPageable(Sort sort){
         int pageNum = page < 0 ? 1 : page - 1;
