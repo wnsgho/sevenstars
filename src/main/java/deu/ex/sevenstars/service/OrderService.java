@@ -3,6 +3,7 @@ package deu.ex.sevenstars.service;
 import deu.ex.sevenstars.dto.OrderDTO;
 import deu.ex.sevenstars.dto.PageRequestDTO;
 import deu.ex.sevenstars.entity.OrderItem;
+import deu.ex.sevenstars.entity.OrderStatus;
 import deu.ex.sevenstars.entity.Orders;
 import deu.ex.sevenstars.entity.Product;
 import deu.ex.sevenstars.exception.OrderException;
@@ -15,9 +16,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,5 +125,22 @@ public class OrderService {
             log.error("예외 코드 : " + e.getMessage());
             throw OrderException.NOT_FOUND.get();
         }
+    }
+
+    // 전날 오후 2시부터 당일 오후 2시 상품 처리
+    public void updateOrderStatus() {
+
+        LocalDateTime startTime = LocalDateTime.now().minusDays(1).withHour(14).withMinute(0).withSecond(0);
+        LocalDateTime endTime = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0);
+
+
+        List<Orders> ordersToUpdate = orderRepository.findByCreatedAtBetweenAndOrderStatus(
+                startTime, endTime, OrderStatus.ACCEPTED
+        );
+
+        ordersToUpdate.forEach(order -> {
+            order.changeOrderStatus(OrderStatus.SHIPPED);
+            orderRepository.save(order);
+        });
     }
 }

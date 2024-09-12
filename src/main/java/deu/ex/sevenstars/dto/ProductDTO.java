@@ -2,6 +2,7 @@ package deu.ex.sevenstars.dto;
 
 import deu.ex.sevenstars.entity.Category;
 import deu.ex.sevenstars.entity.Product;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@Schema(description = "상품 데이터 전송 객체")
 public class ProductDTO {
     private Long productId;
 

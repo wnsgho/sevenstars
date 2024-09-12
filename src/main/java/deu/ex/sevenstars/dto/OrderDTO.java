@@ -1,6 +1,9 @@
 package deu.ex.sevenstars.dto;
 
 import deu.ex.sevenstars.entity.OrderItem;
+import deu.ex.sevenstars.entity.Product;
+import deu.ex.sevenstars.repository.ProductRepository;
+import io.swagger.v3.oas.annotations.media.Schema;
 import deu.ex.sevenstars.entity.Orders;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@Schema(description = "주문 데이터 전송 객체")
 public class OrderDTO {
 
     private Long orderId;

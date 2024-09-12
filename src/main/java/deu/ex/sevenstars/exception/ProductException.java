@@ -1,7 +1,7 @@
 package deu.ex.sevenstars.exception;
 
 public enum ProductException {
-    NOT_FOUND("Product NOT_FOUND", 404),
+    NOT_FOUND("Product NOT_FOUND", 400),
     NOT_REGISTERED("Product NOT_REGISTERED", 400),
     NOT_MODIFIED("Product NOT_MODIFIED", 400),
     NOT_REMOVED("Product NOT_REMOVED", 400),

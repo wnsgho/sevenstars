@@ -1,5 +1,6 @@
 package deu.ex.sevenstars.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "페이징 관련 데이터 전송 객체")
 public class PageRequestDTO {
 
 
