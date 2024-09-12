@@ -15,4 +15,5 @@ public class ProductViewController {
     public String newProduct () {
         return "new-product"; // 템플릿 이름 (templates/product-list.html)
     }
+
 }

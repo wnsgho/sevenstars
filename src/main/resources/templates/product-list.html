@@ -32,7 +32,7 @@
 
 <script>
   // API를 호출하여 데이터 가져오기
-  fetch('/api/seven/products')
+  fetch('/api/v1/products')
           .then(response => response.json())
           .then(products => {
             const productList = document.getElementById('product-list');

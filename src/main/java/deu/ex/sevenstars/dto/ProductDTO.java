@@ -5,6 +5,10 @@ import deu.ex.sevenstars.entity.Product;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +18,10 @@ public class ProductDTO {
     private Category category;
 
     private String productName;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+
 
     @Min(0)
     private int price;
@@ -31,6 +39,8 @@ public class ProductDTO {
         this.price = product.getPrice();
         this.description = product.getDescription();
         this.imageUrl = product.getImageUrl();
+        this.createdAt = product.getCreatedAt(); // 생성 날짜 추가
+        this.updatedAt = product.getUpdatedAt(); // 수정 날짜 추가
     }
 
 

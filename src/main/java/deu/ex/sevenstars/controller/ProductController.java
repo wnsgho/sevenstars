@@ -36,6 +36,8 @@ public class ProductController {
         return ResponseEntity.ok(savedProduct);
     }
 
+
+
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTO> read(
             @PathVariable ("productId") Long productId
@@ -112,4 +114,12 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.pageCategoryDESC(pageRequestDTO));
     }
+
+//    @PostMapping("/products")
+//    public ResponseEntity<ProductDTO> add(@Validated @RequestBody ProductDTO productDTO){
+//        log.info("--- add()" + productDTO);
+//
+//        return ResponseEntity.ok()
+//    }
+
 }
