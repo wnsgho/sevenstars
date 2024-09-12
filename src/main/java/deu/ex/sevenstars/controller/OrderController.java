@@ -2,9 +2,7 @@ package deu.ex.sevenstars.controller;
 
 import deu.ex.sevenstars.dto.OrderDTO;
 import deu.ex.sevenstars.dto.PageRequestDTO;
-import deu.ex.sevenstars.dto.ProductDTO;
 import deu.ex.sevenstars.exception.OrderException;
-import deu.ex.sevenstars.exception.ProductException;
 import deu.ex.sevenstars.service.OrderService;
 import deu.ex.sevenstars.service.ProductService;
 import lombok.RequiredArgsConstructor;
